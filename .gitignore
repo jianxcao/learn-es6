@@ -1,0 +1,32 @@
+# Mac OS X
+.DS_Store
+
+# JetBrains IDE
+.idea
+
+# 远程公共模块目录
+bower_components
+
+# 远程公共模块目录
+.remote
+
+# 编译输出目录
+build
+
+# npm模块安装目录
+node_modules
+
+# npm报错日志
+npm-debug.log
+
+# 发布输出目录
+release
+
+# 不提交的本地配置文件
+miaow.local.js
+
+# 缓存目录
+cache
+
+# 运行文件
+run.config.js
