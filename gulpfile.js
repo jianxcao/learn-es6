@@ -8,13 +8,14 @@ gulp.task('default', () => {
 	return gulp.src('src/**/*.*')
 		.pipe(babel({
 			only: 'src/**/*.es6',
-			presets: ['es2015'],
-			// es7的某些特性
-			plugins: ['transform-runtime', "transform-es2015-modules-amd"]
+		
+			presets: ['es2015', "stage-0"],
+			//, 'transform-runtime'
+			plugins: ["transform-es5-property-mutators", "transform-es2015-modules-amd"]
 		}))
 		.pipe(gulp.dest('build'));
 });
 var watcher = gulp.watch('src/**/*.*', ['default']);
-watcher.on('change', function(event) {
+watcher.on('change added', function(event) {
 	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 });

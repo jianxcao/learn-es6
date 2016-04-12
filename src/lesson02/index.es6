@@ -1,34 +1,34 @@
-// 解构成功
-var [a, b, c] = [1, 2, 3];
-console.log(a, b, c);
+console.groupCollapsed('es6-string');
+console.groupCollapsed('String.prototype.includes');
+//字符串中包含某个字符
+console.log("helloe world".includes('d'));
+console.groupEnd();
 
-// foo结构失败, foo值为 undefined
-// var [foo] = [];
-// var [bar, foo] = [1];
+console.groupCollapsed('stString.prototype.artsWith');
+//字符串以 什么开头
+console.log("hello".startsWith('h'));
+console.groupEnd();
+
+console.groupCollapsed('String.prototype.endsWith');
+console.log("hello".endsWith('o'));
+console.groupEnd();
 
 
-// 复杂点的解构
-// 
-var [foo, [[bar], baz]] = [1, [[2], 3]];
-// foo // 1
-// bar // 2
-// baz // 3
 
+//将字符串重复num次，并返回新的字符串
+console.groupCollapsed('String.prototype.repeat');
+console.log("hello".repeat(3));
+console.groupEnd();
 
-// 本质上，这种写法属于“模式匹配”，
-// 要等号两边的模式相同，左边的变量就会被赋予对应的值。下面是一些使用嵌套数组进行解构的例子。
-var [ , , third] = ["foo", "bar", "baz"];
-// third // "baz"
+//以指定的 fillets填充 指定长度len到字符中，填充到前面
+console.groupCollapsed('String.prototype.padStart');
+// console.log("hello".padStart(10, "cjx"));
+console.groupEnd();
 
-var [x, , y] = [1, 2, 3];
-// x // 1
-// y // 3
+//以指定的 fillets填充 指定长度len到字符中, 填充到后面
+console.groupCollapsed('String.prototype.padEnd');
+// console.log("hello".padEnd(10, "cjx"));
+console.groupEnd();
+console.groupEnd();
 
-var [head, ...tail] = [1, 2, 3, 4];
-// head // 1
-// tail // [2, 3, 4]
-
-var [x, y, ...z] = ['a'];
-// x // "a"
-// y // undefined
-// z // []
+import * as es6Tpl from "./str-tpl";

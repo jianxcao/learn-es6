@@ -2,13 +2,15 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>learn var(变量 解构)</title>
+	<title>learn 字符串扩展</title>
 </head>
 <body>
 	<script src="../lib/require.js"></script>
 	<script src="../lib/config.js"></script>
 	<script>
-		require(['./index.js']);
+		require(['./index.js'], function(mode) {
+			console.log(mode);
+		});
 	</script>
 </body>
 </html>
