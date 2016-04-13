@@ -22,7 +22,7 @@
 -  类定义必须有 constructor，类似es5中的 构造方法，如果没有，会有一个缺省的空方法
 -  类定义中的方法 如上的 toString（）都将放到原型中去，也可以自己修改原型为类添加方法
 -  类的 constructor应该指向自己 ,即(类.prototype.constructor === 类 // true)
--  类中所有原型上的方法是不可以枚举的（要是你自己修改原型定义的方法就不已定义了）
+-  类中所有原型上的方法是不可以枚举的（要是你自己修改原型定义的方法就不一定了）
 
 ##类的继承
 ``` javascript
@@ -41,11 +41,12 @@ var c = new ColorPoint(3, 4, 'red');
 ```
 
 ###继承注意事项
--  继承使用关键字 extend，不支持多继承
+-  继承使用关键字 extend，不支持多继承(多继承可以自己写mix模式实现)
 -  类继承 在构造器中要调用 super，调用后才可以使用this
 -  类继承可以通过 ```super['方法名'] --- super.方法名```，调用父类函数
 -  子类实例的__proto__属性的__proto__属性，指向父类实例的__proto__属性也就是子类的原型的原型指向父类
--  可以继承原声的 类型，比如 Array
+-  可以继承原生的 类型，比如 Array
+-  可以直接继承一个原生的函数声明的类
 
 ## getter,setter
 ``` javascript
@@ -84,7 +85,7 @@ console.log('定义test方法是一个 generator，返回一个generator', f.tes
 ### Generator 说明
 -  和普通生成器使用相同
 
-##类的静态方法和属性
+## 类的静态方法和属性
 ``` javascript
 class Foo {
   static classMethod() {
@@ -108,7 +109,7 @@ Bar.classMethod();
 - 静态方法使用关键字 static
 - 静态方法可以继承，也可以通过 super调用父类的静态方法
 - 注意看babble的编译后的代码，类的 静态方法都是直接写在 构造函数下，相当于 Foo.方法，这么写。
-- super调用静态方法其实就是取到父类的构造器，直接调用父类构造器的静态方法，以子类的上下文 (Object.getPrototypeOf(父类).静态方法)
+- super调用静态方法其实就是取到父类的构造器，直接调用父类构造器的静态方法，以子类的上下文 (Object.getPrototypeOf(子类).静态方法)
 
 ## 类的静态属性
 ``` javascript
@@ -121,23 +122,55 @@ Foo.prop = 1;
 class Foo {
   static prop = 1;
   //这种写法错误，语法不过
-  static prop : 1
+  //static prop : 1
 }
 ```
+###类的静态属性说明
 - 静态属性关键字  static
 - 与旧的写法直接往类上挂属性是相同的
+-  这种方法是es7的提案(babel已经支持)
 
 ## 类的 实例属性
 ``` javascript
 class MyClass {
   myProp = 42;
   //这种写法错误
-  myProp : 3
+  //myProp : 3
   constructor() {
+    //老写法
+	this.cjx = 111;
     console.log(this.myProp); // 42
   }
 }
 ```
-- 实例属性和直接给 new 出来的对象上 挂属性是一样的
-- 与在方法中调用 this.方法名称定义的属性也是一样的
+### 类的实例属性说明
+- 实例属性和直接给 new 出来的对象上 挂属性是类似的
+- 与在方法中调用 this.方法名称定义的属性也是类似的
+- 这种方法是es7的提案(babel已经支持)
+
+##new.target属性
+``` javascript
+class Rectangle {
+  constructor(length, width) {
+    console.log(new.target === Rectangle, new.target);
+  }
+}
+
+class Square extends Rectangle {
+  constructor(length) {
+    super(length, length);
+  }
+}
+var obj = new Rectangle(2);
+console.log('父类实例中的new.target', obj);
+// 输出 false
+var obj = new Square(3); 
+console.log('子类实例中的new.target', obj);
+```
+
+### new.target说明
+- new.target只能在构造器中调用
+- new.target 可以取到当前new的对象的构造器
+- 如果不是通过new 生成的会返回undefined
+- 通过new.target可以知道到底是那个类生成的实例，当然也可以定义一个类不能够生成实例，比如在构造器中添加  new.target === 自己的构造器，那就返回错误
 
