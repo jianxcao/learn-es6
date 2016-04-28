@@ -15,6 +15,8 @@
 > - 不断调用指针对象的next方法，直到它指向数据结构的结束位置。
 
 >     每一次调用next方法，都会返回数据结构的当前成员的信息。具体来说，就是返回一个包含value和done两个属性的对象。其中，value属性是当前成员的值，done属性是一个布尔值，表示遍历是否结束。
+
+
 ## [模拟Iterator接口](./array-iterator.es6)
 ``` javascript
 /**
@@ -43,7 +45,7 @@ console.log('{ value: undefined, done: true }', it.next());
 > es6有些数据结构原生具备Iterator接口（比如数组），即不用任何处理，就可以被for...of循环遍历，有些就不行（比如对象）。原因在于，一些数据结构原生部署了Symbol.iterator属性，另外一些数据结构没有。凡是部署了Symbol.iterator属性的数据结构，就称为部署了遍历器接口。调用这个接口，就会返回一个遍历器对象。
 
 
-## [数组原生](./array-iterator.es6)
+### [数组原生](./array-iterator.es6)
 ``` javascript
 let arr = ['a', 'b', 'c'];
 let iter = arr[Symbol.iterator]();
@@ -56,7 +58,7 @@ iter.next(); // { value: undefined, done: true };
 - Symbol.iterator返回一个 Symbol对象,多次调用返回相同
 - ```Symboliterator```作为键，去获取迭代器，迭代器即可用迭代
 
-##对象
+###对象
 > 对象（Object）没有Iterator接口， 之所以没有默认部署Iterator接口，是因为对象的哪个属性先遍历，哪个属性后遍历是不确定的，需要开发者手动指定。本质上，遍历器是一种线性处理，对于任何非线性的数据结构，部署遍历器接口，就等于部署一种线性转换。
 > 当然可用自己给对象定义一个 ```Symbol.iterator```接可以实现Iterator接口，并且可以用```for..of```循环
 > 但是对象其实没必要实现这个，用for...in循环已经足够
