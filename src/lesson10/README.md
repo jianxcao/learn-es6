@@ -15,7 +15,7 @@
 > - 不断调用指针对象的next方法，直到它指向数据结构的结束位置。
 
 >     每一次调用next方法，都会返回数据结构的当前成员的信息。具体来说，就是返回一个包含value和done两个属性的对象。其中，value属性是当前成员的值，done属性是一个布尔值，表示遍历是否结束。
-## 模拟Iterator接口
+## [模拟Iterator接口](./array-iterator.es6)
 ``` javascript
 /**
  * 模拟一个 Iterator接口
@@ -43,7 +43,7 @@ console.log('{ value: undefined, done: true }', it.next());
 > es6有些数据结构原生具备Iterator接口（比如数组），即不用任何处理，就可以被for...of循环遍历，有些就不行（比如对象）。原因在于，一些数据结构原生部署了Symbol.iterator属性，另外一些数据结构没有。凡是部署了Symbol.iterator属性的数据结构，就称为部署了遍历器接口。调用这个接口，就会返回一个遍历器对象。
 
 
-##数组原生
+## [数组原生](./array-iterator.es6)
 ``` javascript
 let arr = ['a', 'b', 'c'];
 let iter = arr[Symbol.iterator]();
@@ -67,9 +67,9 @@ iter.next(); // { value: undefined, done: true };
   var [a, b] = [1, 2]
   console.log(...[1,2]);
   let generator = function* () {
-	  yield 1;
-	  yield* [2,3,4];
-	  yield 5;
+    yield 1;
+    yield* [2,3,4];
+    yield 5;
   };
 var iterator = generator();
 iterator.next() // { value: 1, done: false }
