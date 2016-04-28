@@ -82,6 +82,8 @@ iterator.next() // { value: 5, done: false }
 iterator.next() // { value: undefined, done: true }
 ```
 -  解构赋值 var [a, b] = [1, 2]
+-  字符串循环 
+-  generator返回值 去到 ```generator()[Symbol.iterator]```
 -  扩展运算符 console.log(...[1,2]);
-- 生成器中的 ``` yield* [1,2,3]```会返回 数组的 iterator,所以会被遍历
+-  生成器中的 ``` yield* [1,2,3]```会返回 数组的 iterator,所以会被遍历
 
