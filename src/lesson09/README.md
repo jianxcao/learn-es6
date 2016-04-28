@@ -1,11 +1,11 @@
-#symbol(标记,符号)
+#Symbol(标记,符号)
 
 ##ES6引入了一种新的原始数据类型Symbol，表示独一无二的值。它是JavaScript语言的第七种数据类型，前六种是：Undefined、Null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。
 
 ### 有什么用
 >在es5中变量名只能是字符串，极容易冲突 symobl是产生一个唯一的值，生成一个变量名
 
-## 使用方法
+## [基本使用方法](symbol-base.es6)
 ``` javascript
 	var s1 = Symbol('foo');
 	var s2 = Symbol('bar');
@@ -20,7 +20,7 @@
 -  symbol 不能参与运算,可以转换成boolean类型，其他类型均不可以
 
 
-## symbol 作为属性名称
+##[symbol 作为属性名称](symbol-prop.es6) 
 
 ``` javascript
 var mySymbol = Symbol();
@@ -50,7 +50,7 @@ a[mySymbol] // "Hello!"
 - Symbol由于是唯一的，可以作为常量，生成唯一的键值
 - ```Reflect.ownKeys()```获取到所有的键值包括 Symbol (Reflect指反射)
 
-##Symbol.for()，Symbol.keyFor()
+##  [Symbol.for()，Symbol.keyFor()](symbol-for-keyfor.es6)
 ``` javascript
 var s1 = Symbol.for('foo');
 var s2 = Symbol.for('foo');

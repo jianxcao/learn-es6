@@ -1,79 +1,89 @@
-#Symbol(标记,符号)
+#Iterator(迭代器)和for...of循环
 
-##ES6引入了一种新的原始数据类型Symbol，表示独一无二的值。它是JavaScript语言的第七种数据类型，前六种是：Undefined、Null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。
+## 迭代器说明
 
-### 有什么用
->在es5中变量名只能是字符串，极容易冲突 symobl是产生一个唯一的值，生成一个变量名
+> 迭代器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署Iterator接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）
+> Iterator接口的目的，就是为所有数据结构，提供了一种统一的访问机制，即for...of循环。当使用for...of循环遍历某种数据结构时，该循环会自动去寻找Iterator接口。
 
-## [基本使用方法](symbol-base.es6)
+## 迭代器的调用过程
+> - 创建一个指针对象，指向当前数据结构的起始位置。也就是说，遍历器对象本质上，就是一个指针对象。
+
+> - 第一次调用指针对象的next方法，可以将指针指向数据结构的第一个成员。
+
+> - 第二次调用指针对象的next方法，指针就指向数据结构的第二个成员。
+
+> - 不断调用指针对象的next方法，直到它指向数据结构的结束位置。
+
+>     每一次调用next方法，都会返回数据结构的当前成员的信息。具体来说，就是返回一个包含value和done两个属性的对象。其中，value属性是当前成员的值，done属性是一个布尔值，表示遍历是否结束。
+
+
+## [模拟Iterator接口](./array-iterator.es6)
 ``` javascript
-  var s1 = Symbol('foo');
-  var s2 = Symbol('bar');
-  s1 // Symbol(foo)
-  s2 // Symbol(bar)
-  s1.toString() // "Symbol(foo)"
-  s2.toString() // "Symbol(bar)"
-```
-### 使用说明
-- symbol 可以跟字符串作为参数，该参数主要是为了识别每个symbol(注意在控制台输出 会显示不同)
--  symbol产生的 symbol对象都是唯一的
--  symbol 不能参与运算,可以转换成boolean类型，其他类型均不可以
-
-
-##[symbol 作为属性名称](symbol-prop.es6) 
-
-``` javascript
-var mySymbol = Symbol();
-// 第一种写法
-var a = {};
-a[mySymbol] = 'Hello!';
-
-// 第二种写法
-var a = {
-  [mySymbol]: 'Hello!'
+/**
+ * 模拟一个 Iterator接口
+ * 
+ * @param  {[Array]} array 要迭代的数组
+ * @return {[Iterator]}       迭代器
+ */
+function makeIterator(array){
+  var nextIndex = 0;
+  return {
+    next: function(){
+      return nextIndex < array.length ?
+        {value: array[nextIndex++], done: false} :
+        {value: undefined, done: true};
+    }
+  };
 };
-
-// 第三种写法
-var a = {};
-Object.defineProperty(a, mySymbol, { value: 'Hello!' });
-// 以上写法都得到同样结果
-a[mySymbol] // "Hello!"
+var it = makeIterator(['a', 'b']);
+console.log('{ value: "a", done: false }', it.next()); 
+console.log('{ value: "b", done: false }', it.next());
+console.log('{ value: undefined, done: true }', it.next());
 ```
 
-###使用注意事项
-- Symbol作为属性名有上面三种使用方式
-- Symbol作为属性名定义的变量 无法for...in循环遍历，也无法 for...of遍历出来
-- Symbol作为属性名定义的变量 ，无法通过```Object.keys(),Object.getOwnPropertyNames```获取属性名称
-- Symbol可以通过```Object.getOwnPropertySymbols()```去获取
-- 如果你丢失了Symbol的原始引用，那么你只能通过```Object.getOwnPropertySymbols```获取到全部的Symbol在去找你需要的
-- 由于 symbol是个对象，对象作为key的时候，不能用 ```.```操作符
-- Symbol由于是唯一的，可以作为常量，生成唯一的键值
-- ```Reflect.ownKeys()```获取到所有的键值包括 Symbol (Reflect指反射)
+##原生Iterator接口
+> es6有些数据结构原生具备Iterator接口（比如数组），即不用任何处理，就可以被for...of循环遍历，有些就不行（比如对象）。原因在于，一些数据结构原生部署了Symbol.iterator属性，另外一些数据结构没有。凡是部署了Symbol.iterator属性的数据结构，就称为部署了遍历器接口。调用这个接口，就会返回一个遍历器对象。
 
-##  [Symbol.for()，Symbol.keyFor()](symbol-for-keyfor.es6)
+
+### [数组原生](./array-iterator.es6)
 ``` javascript
-var s1 = Symbol.for('foo');
-var s2 = Symbol.for('foo');
-s1 === s2 // true
+let arr = ['a', 'b', 'c'];
+let iter = arr[Symbol.iterator]();
+iter.next(); // { value: 'a', done: false }
+iter.next(); // { value: 'b', done: false }
+iter.next(); // { value: 'c', done: false }
+iter.next(); // { value: undefined, done: true };
 ```
+### 数组原生说明
+- Symbol.iterator返回一个 Symbol对象,多次调用返回相同
+- ```Symboliterator```作为键，去获取迭代器，迭代器即可用迭代
 
-###Symbol.for说明
-- ```Symbol.for```它接受一个字符串作为参数，然后搜索有没有以该参数作为名称的Symbol值。如果有，就返回这个Symbol值，否则就新建并返回一个以该字符串为名称的Symbol值。
-- 如果有2个同名字符串的Symol，则会返回其中一个
-- 必须都是```Symbol.for```产生的才会有效 比如 ```Symbol.for('t')和Symbol('t')```产生的是不相同的 
+###对象
+> 对象（Object）没有Iterator接口， 之所以没有默认部署Iterator接口，是因为对象的哪个属性先遍历，哪个属性后遍历是不确定的，需要开发者手动指定。本质上，遍历器是一种线性处理，对于任何非线性的数据结构，部署遍历器接口，就等于部署一种线性转换。
+> 当然可用自己给对象定义一个 ```Symbol.iterator```接可以实现Iterator接口，并且可以用```for..of```循环
+> 但是对象其实没必要实现这个，用for...in循环已经足够
 
-##Symbol.keyFor
+
+##调用Iterator接口的场合
 ``` javascript
-var s1 = Symbol.for("foo");
-Symbol.keyFor(s1) // "foo"
-
-var s2 = Symbol("foo");
-Symbol.keyFor(s2) // undefined
+  var [a, b] = [1, 2]
+  console.log(...[1,2]);
+  let generator = function* () {
+    yield 1;
+    yield* [2,3,4];
+    yield 5;
+  };
+var iterator = generator();
+iterator.next() // { value: 1, done: false }
+iterator.next() // { value: 2, done: false }
+iterator.next() // { value: 3, done: false }
+iterator.next() // { value: 4, done: false }
+iterator.next() // { value: 5, done: false }
+iterator.next() // { value: undefined, done: true }
 ```
-
-###Symbol.keyFor说明
-- ```keyFor```方法可以用于对```for```方法产生的Symbol发回他的string说明
-
-##内置Symbol值（有11个内置的Symbol）
-> 待补充
+-  解构赋值 var [a, b] = [1, 2]
+-  字符串循环 
+-  generator返回值 去到 ```generator()[Symbol.iterator]```
+-  扩展运算符 console.log(...[1,2]);
+-  生成器中的 ``` yield* [1,2,3]```会返回 数组的 iterator,所以会被遍历
 
