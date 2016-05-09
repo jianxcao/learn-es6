@@ -12,7 +12,9 @@ Person.prototype.test = "cjx";
 
 function Man() {
 	this.m3 = function() {
+		//获取父类的 test方法
 		console.log(Object.getPrototypeOf(this).test);
+		//获取 父类的method1的方法并调用
 		Object.getPrototypeOf(this).method1();
 	};
 };

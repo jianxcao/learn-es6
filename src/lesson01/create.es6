@@ -31,7 +31,6 @@ console.groupCollapsed('Object.getOwnPropertyNames');
   console.log(...Object.getOwnPropertyNames(b));
 console.groupEnd();
 
-
 //获取对象中属性的ECMAScript对象
 console.groupCollapsed('Object.getOwnPropertyDescriptor');
 console.log(Object.getOwnPropertyDescriptor(b, 'b'));
