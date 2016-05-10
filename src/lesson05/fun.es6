@@ -1,3 +1,4 @@
+console.groupCollapsed('函数解构');
 //对象传递
 var fun1 = function({a, b}) {
 	console.log(a, b);
@@ -30,3 +31,4 @@ fun3([]);
 fun4({});
 
 var a = '';
+console.groupEnd();
