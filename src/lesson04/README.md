@@ -71,7 +71,7 @@ console.log("使用let情况下的输出", fns[0]() + fns[1]());
 
 > 变量提升
 ``` javascript
-//if作用域下理论上外部不能访问 a变量和fun f，但是实际测试发现，f是能被访问到得
+//if作用域下理论上外部不能访问 a变量和fun f，但是实际在chrome 50.0版本下是能访问的，在node 5.11下是不能访问的
 if (true) {
   let a = 'secret';
   function f() {
