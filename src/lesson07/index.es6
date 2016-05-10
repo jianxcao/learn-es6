@@ -4,12 +4,17 @@ import test from "./test";
 import mod from './mod';
 // //导入模块下的方法
 // import {a, test, c, f} from 'mod';
+// 
+
 import * as mods from './mod';
 
-console.log(mod);
+
+import * as ext from './extends';
+
+
+console.log('extends', ext);
+
+console.log('mod', mod);
 // console.log(a, test, c, f);
 
 console.log('mods', mods, mods.a);
-
-//导出mod的所有方法，忽略 default下的方法	
-// export * from './mod';
