@@ -3,6 +3,7 @@ console.groupCollapsed('es6-tpl');
 // 模板中动态js放入 ${}
 // ${}中可调用方法或者 插入任意变量
 var test = function() {
+  console.log('调用test', this);
   return "test";
 };
 
@@ -10,11 +11,11 @@ var getTpl  = function({name = "cjx", time = "111"}) {
   var tpl = `
     Hello ${name}, how are you ${time}?
     cjx  what this;
-    ${test()};
+    ${test.call(this)};
   `;
   console.log(tpl);
 };
-console.log(getTpl({}));
+console.log(getTpl.call(null, {}));
 
 console.groupEnd();
 
@@ -32,7 +33,11 @@ var my = function(literals, ...values) {
   output += literals[index];
   return output;
 };
-var tpl = my`${name} hhhhh ${time}`;
+var tpl = my
+` start 
+   ${name} hhhhh ${time} 
+  end
+`;
 
 
 console.log(tpl);
