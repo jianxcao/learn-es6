@@ -1,3 +1,4 @@
+console.groupCollapsed('箭头函数');
 //如果返回多条语句需要 {},如果只有一个参数，则直接写参数名称
 var f = v => v;
 //等同于
@@ -42,12 +43,10 @@ let insert = (value) => ({
 });
 insert(2).into([1, 3]).after(1); //[1, 2, 3]
 
-
 //箭头函数管道使用
-//
-//
-
 var pipeline = (...funcs) =>
 	val => funcs.reduce((a, b) => b(a), val);
 
-
+window.setTimeout(function() {
+	console.groupEnd();
+}, 300);

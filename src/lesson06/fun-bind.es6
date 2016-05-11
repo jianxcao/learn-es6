@@ -1,3 +1,4 @@
+console.groupCollapsed('函数bind');
 var af = [1, 3];
 var foo = {
 	test: function() {}
@@ -18,3 +19,5 @@ var d = bar.apply(foo, af);
 var method = foo::foo.test;
 // 等同于
 var method = ::foo.test;
+
+console.groupEnd();

@@ -1,4 +1,6 @@
-//函数可以用reset参数，就可以避免用araguments了
+console.groupCollapsed('函数reset');
+
+//函数可以用reset参数，就可以避免用arguments了
 // 注意多个参数  Reset参数必须放在最后
 function add(...values) {
   let sum = 0;
@@ -47,6 +49,7 @@ var nc = [1, 2, ...more];
 //
 var [a, ...b] = [1, 2, 3];
 
+console.groupEnd();
 //字符串拆分
 var f = [...'hello'];
 
