@@ -13,7 +13,7 @@
   "author": "jianxcao",
   "license": "MIT",
   "dependencies": {
-    "babel": "^6.5.2",
+    "babel": "5.8.19",
     "babel-plugin-syntax-function-bind": "^6.5.0",
     "babel-plugin-transform-es2015-modules-amd": "^6.6.5",
     "babel-plugin-transform-es5-property-mutators": "^6.6.5",
@@ -27,6 +27,7 @@
     "gulp-babel": "^6.1.2",
     "install": "^0.6.1",
     "npm": "^3.8.6",
-    "through2": "^2.0.1"
+    "through2": "^2.0.1",
+    "uglify-js": "^2.6.2"
   }
 }
